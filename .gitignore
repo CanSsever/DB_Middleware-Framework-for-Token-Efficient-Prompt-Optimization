@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+Thumbs.db
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Build outputs
+/dist/
+/build/
+/out/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Log files
+*.log
+
+# Runtime data
+.pid
+*.pid.lock
+
+# Testing
+/coverage/
+.nyc_output/
+
+# Vite
+.vite/
+# Vite build output (default)
+dist/
+
+# Qoder IDE
+.qoder/
+
+# Package lock files (uncomment if you want to commit them)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
