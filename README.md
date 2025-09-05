@@ -38,7 +38,7 @@ This project implements a web-based middleware application that optimizes prompt
 │   │   └── server.js      # Main server file
 │   └── package.json       # Backend dependencies
 ├── PRD.md              # Project Requirements Document
-├── IMPLEMENTATION_PLAN.md # Implementation plan and checklist
+├── PROJECT_SUMMARY.md # Project Summary
 └── README.md           # This file
 ```
 
@@ -84,9 +84,6 @@ This project implements a web-based middleware application that optimizes prompt
 
 ## API Endpoints
 
-### GET /api/models
-Returns a list of supported LLM models with their pricing information.
-
 ### POST /api/optimize
 Optimizes a prompt and returns the results.
 
@@ -94,7 +91,6 @@ Optimizes a prompt and returns the results.
 ```json
 {
   "prompt": "string",
-  "targetModel": "string[gpt-3.5-turbo|gpt-4]"
 }
 ```
 
