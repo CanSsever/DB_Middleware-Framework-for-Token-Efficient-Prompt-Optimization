@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
 import HomePage from './pages/HomePage';
 import OptimizationPage from './pages/OptimizationPage';
@@ -9,11 +9,11 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1>Prompt Optimization Middleware</h1>
+        <h1>Prompt Optimization</h1>
         <nav>
-          <Link to="/">Home</Link>
-          <Link to="/optimize">Optimize</Link>
-          <Link to="/about">About</Link>
+          <NavLink to="/" end>Home</NavLink>
+          <NavLink to="/optimize">Optimize</NavLink>
+          <NavLink to="/about">About</NavLink>
         </nav>
       </header>
       
@@ -26,7 +26,7 @@ function App() {
       </main>
       
       <footer>
-        <p>Prompt Optimization Middleware &copy; 2025</p>
+        <p>Prompt Optimization Middleware &copy; {new Date().getFullYear()}</p>
       </footer>
     </div>
   );

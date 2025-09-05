@@ -7,7 +7,6 @@ This project implements a web-based middleware application that optimizes prompt
 - **Prompt Optimization**: Reduces token usage in prompts without sacrificing semantic quality
 - **Cost Estimation**: Calculates API costs before and after optimization
 - **Quality Metrics**: Evaluates optimized prompts using BLEU, ROUGE, and semantic similarity scores
-- **Multiple Strategies**: Implements structural pruning, summarization, few-shot compression, and formatting normalization
 - **Visual Dashboard**: Provides a user-friendly interface to compare original and optimized prompts
 
 ## Technology Stack
@@ -95,8 +94,6 @@ Optimizes a prompt and returns the results.
 ```json
 {
   "prompt": "string",
-  "examples": ["string"],
-  "taskType": "enum[summarization|question_answering|reasoning|text_generation|classification]",
   "targetModel": "string[gpt-3.5-turbo|gpt-4]"
 }
 ```
@@ -137,8 +134,15 @@ Optimizes a prompt and returns the results.
 
 1. **Structural Pruning**: Removes redundant phrases and simplifies sentences
 2. **Formatting Normalization**: Cleans up formatting and removes extra whitespace
-3. **Few-Shot Compression**: Compresses examples to reduce token count
-4. **Summarization**: Summarizes long prompts while preserving core meaning
+3. **Summarization**: Summarizes long prompts while preserving core meaning
+
+## Current UI Features
+
+- **Simplified Input**: Users only need to enter their prompt and click "Optimize"
+- **Token Comparison**: Shows the number of tokens before and after optimization
+- **Cost Estimation**: Displays cost savings achieved through optimization
+- **Prompt Comparison**: Side-by-side view of original and optimized prompts
+- **Quality Metrics**: Visualization of semantic preservation metrics
 
 ## Future Enhancements
 

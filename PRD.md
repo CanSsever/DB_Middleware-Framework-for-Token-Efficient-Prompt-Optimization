@@ -35,9 +35,6 @@ This system is especially relevant for developers and researchers using LLM APIs
 ### 3.1. Input Panel
 
 * **Prompt Input Box:** Large text field for users to paste or type their prompt
-* **Optional Few-Shot Example Field:** Additional text fields for 1–3 few-shot examples
-* **Task Type Selector:** Dropdown (e.g., Summarization, Question Answering, Reasoning)
-* **Target Model Selector:** Dropdown (e.g., GPT-3.5 Turbo, GPT-4, Claude 2, etc.)
 * **Submit Button:** Trigger optimization pipeline
 
 ### 3.2. Optimization Engine (Backend Logic)
@@ -45,8 +42,6 @@ This system is especially relevant for developers and researchers using LLM APIs
 The system applies one or more of the following strategies:
 
 * **Structural Pruning**: Remove redundant phrases or unnecessary modifiers
-* **Summarization**: Use a small LLM to summarize long prompts
-* **Few-Shot Compression**: Reduce the number and length of examples
 * **Formatting Normalization**: Clean excessive formatting, emojis, line breaks, etc.
 
 ### 3.3. Token & Cost Estimator
@@ -66,7 +61,6 @@ The system applies one or more of the following strategies:
   * Token reduction %
   * BLEU / ROUGE score
   * Semantic similarity (cosine distance via embeddings)
-* **Human Evaluation (optional):** 5-star rating from user comparing both outputs
 
 ### 3.6. Result Dashboard
 
@@ -76,7 +70,6 @@ The system applies one or more of the following strategies:
   * LLM Output A vs Output B
   * Token Count & Cost
   * Metric Scores
-  * Visual cost-benefit summary chart (e.g., bar or pie chart)
 
 ---
 
@@ -89,7 +82,7 @@ The system applies one or more of the following strategies:
 
 ### Optimization Page (Main UI)
 
-* **Left Panel:** Input fields (prompt, examples, task, model)
+* **Left Panel:** Input fields (prompt)
 * **Right Panel (after processing):**
 
   * Token count before/after
@@ -100,51 +93,14 @@ The system applies one or more of the following strategies:
 
 ### About Page
 
-* Explanation of strategies
+* Optimization Strategies
 * How it works
-* Example use cases
 
 ---
 
-## 5. Technical Architecture (Qoder AI)
-
-* Use **modular components** for each step (input, process, evaluation)
-* API Integration Module (for LLM access)
-* Token counting using built-in tokenizer plugins or JS/Python script blocks
-* Use no-code chart components for visualization (cost-benefit)
-
----
-
-## 6. Success Criteria
+## 5. Success Criteria
 
 * Functional middleware working end-to-end
 * At least 3 optimization strategies implemented
 * Visual report showing before/after + metrics
 * Real token and cost reduction demonstrated on example prompts
-
----
-
-## 7. Stretch Goals (Optional)
-
-* User login and history saving
-* Export report as PDF
-* Custom model support
-* Real-time inference latency tracking
-
----
-
-## 8. Timeline Suggestion
-
-* **Week 1:** UI layout + prompt input pipeline
-* **Week 2:** Add optimization strategies and token calculator
-* **Week 3:** Connect LLM API + generate outputs
-* **Week 4:** Add evaluation module + result dashboard
-* **Week 5:** Polish design, test, and deploy
-
----
-
-## 9. Notes
-
-* Initial version can use only OpenAI GPT-3.5 or 4
-* All API calls should have proper error handling
-* Keep logs of original/optimized prompt and results for debugging/testing

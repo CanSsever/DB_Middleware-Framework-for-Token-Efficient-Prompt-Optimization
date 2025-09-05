@@ -41,12 +41,12 @@ const { applyOptimizationStrategies } = require('./optimization/strategies');
 
 app.post('/api/optimize', (req, res) => {
   try {
-    const { prompt, examples = [], taskType, targetModel } = req.body;
+    const { prompt, targetModel = 'gpt-3.5-turbo' } = req.body;
     
     // Validate input
-    if (!prompt || !targetModel) {
+    if (!prompt) {
       return res.status(400).json({
-        error: 'Prompt and targetModel are required'
+        error: 'Prompt is required'
       });
     }
     
@@ -54,11 +54,11 @@ app.post('/api/optimize', (req, res) => {
     const originalTokenCount = countTokens(prompt, targetModel);
     const originalCost = calculateCost(originalTokenCount, targetModel);
     
-    // Apply optimization strategies
-    const { optimizedPrompt, compressedExamples } = applyOptimizationStrategies(
+    // Apply optimization strategies with a default task type
+    const { optimizedPrompt } = applyOptimizationStrategies(
       prompt,
-      examples,
-      taskType
+      [], // No examples
+      'summarization' // Default task type
     );
     
     // Count tokens in optimized prompt

@@ -1,65 +1,52 @@
-# Dependencies
+# Node.js
 node_modules/
-
-# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Environment variables
+# Dependency directories
+/frontend/node_modules/
+/backend/node_modules/
+
+# Build output
+dist/
+build/
+
+# Logs
+logs
+*.log
+*.log.*
+
+# Env files
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# IDE and editor files
+# Editor stuff
 .vscode/
 .idea/
 *.swp
-*.swo
-*~
 
-# OS generated files
-Thumbs.db
+# OS-specific
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Desktop.ini
+Thumbs.db
 
-# Build outputs
-/dist/
-/build/
-/out/
+# Coverage / testing
+coverage/
+*.lcov
 
-# Temporary files
-*.tmp
-*.temp
-
-# Log files
-*.log
-
-# Runtime data
-.pid
-*.pid.lock
-
-# Testing
-/coverage/
-.nyc_output/
-
-# Vite
+# Cache
+.cache/
+.parcel-cache/
 .vite/
-# Vite build output (default)
-dist/
 
-# Qoder IDE
+# Temporary
+tmp/
+temp/
+
+# Qoder config
+.qoder
 .qoder/
-
-# Package lock files (uncomment if you want to commit them)
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
