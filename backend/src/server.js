@@ -15,6 +15,15 @@ app.get('/api/models', (req, res) => {
   res.json({
     models: [
       {
+        id: 'gemini-1.5-pro',
+        name: 'Gemini 1.5 Pro',
+        provider: 'Google',
+        pricing: {
+          inputCostPer1kTokens: 0.0015,
+          outputCostPer1kTokens: 0.002
+        }
+      },
+      {
         id: 'gpt-3.5-turbo',
         name: 'GPT-3.5 Turbo',
         provider: 'OpenAI',
@@ -38,10 +47,13 @@ app.get('/api/models', (req, res) => {
 
 const { countTokens, calculateCost } = require('./utils/tokenCounter');
 const { applyOptimizationStrategies } = require('./optimization/strategies');
+const { optimizeWithGemini } = require('./optimization/geminiOptimizer');
 
-app.post('/api/optimize', (req, res) => {
+app.post('/api/optimize', async (req, res) => {
   try {
-    const { prompt, targetModel = 'gpt-3.5-turbo' } = req.body;
+    const { prompt, targetModel = 'gpt-3.5-turbo', optimizationMethod = 'current' } = req.body;
+    
+    console.log('Received optimization request:', { prompt, targetModel, optimizationMethod });
     
     // Validate input
     if (!prompt) {
@@ -54,16 +66,61 @@ app.post('/api/optimize', (req, res) => {
     const originalTokenCount = countTokens(prompt, targetModel);
     const originalCost = calculateCost(originalTokenCount, targetModel);
     
-    // Apply optimization strategies with a default task type
-    const { optimizedPrompt } = applyOptimizationStrategies(
-      prompt,
-      [], // No examples
-      'summarization' // Default task type
-    );
+    console.log('Original token count:', originalTokenCount);
+    
+    let optimizedPrompt;
+    let geminiError = null;
+    
+    // Determine which optimization method to use
+    if (optimizationMethod === 'gemini') {
+      try {
+        console.log('Using Gemini API for optimization');
+        const geminiResult = await optimizeWithGemini(prompt, targetModel);
+        console.log('Gemini API result:', geminiResult);
+        if (geminiResult.success) {
+          optimizedPrompt = geminiResult.optimizedPrompt;
+        } else {
+          // Store the error for response
+          geminiError = geminiResult.error;
+          // Fallback to current strategies if Gemini fails
+          console.warn('Gemini optimization failed, falling back to current strategies:', geminiResult.error);
+          const result = applyOptimizationStrategies(
+            prompt,
+            [], // No examples
+            'summarization' // Default task type
+          );
+          optimizedPrompt = result.optimizedPrompt;
+        }
+      } catch (error) {
+        // Store the error for response
+        geminiError = error.message;
+        // Fallback to current strategies if Gemini fails
+        console.warn('Gemini optimization failed, falling back to current strategies:', error);
+        const result = applyOptimizationStrategies(
+          prompt,
+          [], // No examples
+          'summarization' // Default task type
+        );
+        optimizedPrompt = result.optimizedPrompt;
+      }
+    } else {
+      console.log('Using current strategies for optimization');
+      // Use current optimization strategies
+      const result = applyOptimizationStrategies(
+        prompt,
+        [], // No examples
+        'summarization' // Default task type
+      );
+      optimizedPrompt = result.optimizedPrompt;
+    }
+    
+    console.log('Optimized prompt:', optimizedPrompt);
     
     // Count tokens in optimized prompt
     const optimizedTokenCount = countTokens(optimizedPrompt, targetModel);
     const optimizedCost = calculateCost(optimizedTokenCount, targetModel);
+    
+    console.log('Optimized token count:', optimizedTokenCount);
     
     // Calculate reduction percentage
     const reductionPercentage = ((originalTokenCount - optimizedTokenCount) / originalTokenCount) * 100;
@@ -76,7 +133,7 @@ app.post('/api/optimize', (req, res) => {
                            reductionPercentage > 10 ? 'neutral' : 'positive';
     
     // Return results
-    res.json({
+    const response = {
       original: {
         prompt: prompt,
         tokenCount: originalTokenCount,
@@ -103,7 +160,15 @@ app.post('/api/optimize', (req, res) => {
         costSavings: parseFloat(costSavings.toFixed(6)),
         qualityTradeoff
       }
-    });
+    };
+    
+    // Add Gemini error to response if it occurred
+    if (geminiError) {
+      response.geminiError = geminiError;
+    }
+    
+    console.log('Sending response:', response);
+    res.json(response);
   } catch (error) {
     console.error('Optimization error:', error);
     res.status(500).json({
@@ -112,6 +177,12 @@ app.post('/api/optimize', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Export app for testing
+module.exports = app;
+
+// Start server only if this file is run directly
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}

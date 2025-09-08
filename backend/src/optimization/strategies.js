@@ -62,6 +62,7 @@ const applyOptimizationStrategies = (prompt, examples = [], taskType = 'summariz
   };
 };
 
+// Export all existing functions
 module.exports = {
   structuralPruning,
   formattingNormalization,

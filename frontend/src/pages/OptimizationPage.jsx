@@ -3,25 +3,30 @@ import { apiClient } from '../api/client';
 
 const OptimizationPage = () => {
   const [prompt, setPrompt] = useState('');
+  const [optimizationMethod, setOptimizationMethod] = useState('current');
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [results, setResults] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsOptimizing(true);
+    setError(null);
+    setResults(null);
     
     try {
-      // Use a default model for optimization
+      // Use Gemini as default model for optimization
       const requestData = {
         prompt,
-        targetModel: 'gpt-3.5-turbo'
+        targetModel: 'gemini-1.5-pro',
+        optimizationMethod
       };
       
       const data = await apiClient.optimizePrompt(requestData);
       setResults(data);
     } catch (error) {
       console.error('Optimization failed:', error);
-      // Set error state or show error message
+      setError('Failed to optimize prompt. Please check the console for more details.');
     } finally {
       setIsOptimizing(false);
     }
@@ -49,6 +54,18 @@ const OptimizationPage = () => {
                 />
               </div>
               
+              <div className="form-group">
+                <label htmlFor="optimizationMethod">Optimization Method:</label>
+                <select
+                  id="optimizationMethod"
+                  value={optimizationMethod}
+                  onChange={(e) => setOptimizationMethod(e.target.value)}
+                >
+                  <option value="current">Current Strategies</option>
+                  <option value="gemini">Gemini API</option>
+                </select>
+              </div>
+              
               <button type="submit" className="submit-button" disabled={isOptimizing}>
                 {isOptimizing ? 'Optimizing...' : 'Optimize Prompt'}
               </button>
@@ -58,6 +75,13 @@ const OptimizationPage = () => {
         
         {/* Results Panel */}
         <div className="results-panel">
+          {error && (
+            <div className="error-section">
+              <h3>Error</h3>
+              <div className="error-message">{error}</div>
+            </div>
+          )}
+          
           {results ? (
             <div className="results-content">
               <h3>Optimization Results</h3>
@@ -137,12 +161,22 @@ const OptimizationPage = () => {
                   </div>
                 </div>
               </div>
+              
+              {/* Display Gemini error if it occurred */}
+              {results.geminiError && (
+                <div className="result-section">
+                  <h4>Gemini API Error</h4>
+                  <div className="error-message">
+                    {results.geminiError}
+                  </div>
+                </div>
+              )}
             </div>
-          ) : (
+          ) : !isOptimizing && !error ? (
             <div className="placeholder">
               <p>Enter your prompt and click "Optimize Prompt" to see results</p>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
