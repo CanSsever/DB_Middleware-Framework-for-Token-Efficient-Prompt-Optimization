@@ -1,14 +1,20 @@
-# Middleware Framework for Token-Efficient Prompt Optimization
+# LLM Prompt Optimization Middleware
 
-This project implements a web-based middleware application that optimizes prompts for Large Language Models (LLMs) to reduce token usage while preserving semantic quality. The system provides cost-benefit analysis by comparing original and optimized prompts through various metrics.
+A middleware system designed to **reduce token usage and API costs for Large Language Models (LLMs)** while preserving response quality.
 
-## Features
+The system analyzes prompts, applies optimization strategies, and compares the original and optimized prompts using multiple quality metrics.
 
-- **Prompt Optimization**: Reduces token usage in prompts without sacrificing semantic quality
-- **Cost Estimation**: Calculates API costs before and after optimization
-- **Quality Metrics**: Evaluates optimized prompts using BLEU, ROUGE, and semantic similarity scores
-- **Visual Dashboard**: Provides a user-friendly interface to compare original and optimized prompts
-- **Gemini API Integration**: Uses Google's Gemini API for advanced prompt optimization
+This project demonstrates how **prompt engineering and token-aware optimization techniques** can significantly reduce LLM inference costs in real-world AI applications.
+
+---
+
+## Key Capabilities
+
+• Prompt optimization to reduce token usage  
+• API cost estimation before and after optimization  
+• Semantic quality comparison between original and optimized prompts  
+• Evaluation using BLEU, ROUGE, and semantic similarity metrics  
+• Web interface for interactive prompt testing
 
 ## Technology Stack
 
@@ -176,3 +182,11 @@ When using the Gemini API optimization method, the system applies tokenization-a
 ## License
 
 This project is licensed under the MIT License.
+
+## Research Context
+
+This project explores **token-efficient prompt engineering strategies** for large language model applications.
+
+The middleware layer can be integrated into AI products that rely on LLM APIs to reduce operational costs while maintaining response quality.
+
+Developed as part of a university team research project focused on practical LLM system design.
